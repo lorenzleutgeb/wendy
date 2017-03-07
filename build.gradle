@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'at.ac.tuwien.student.e1127842.wendy.Main'
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	// Spring Framework
+	compile group: 'org.springframework.data', name: 'spring-data-jpa',     version: '1.11.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.2.RELEASE'
+
+	// Hibernate and Validation
+	compile group: 'org.hibernate',            name: 'hibernate-core',      version: '5.2.8.Final'
+	compile group: 'org.hibernate',            name: 'hibernate-java8',     version: '5.2.8.Final'
+	compile group: 'org.hibernate',            name: 'hibernate-validator', version: '5.4.0.Final'
+
+	compile group: 'javax.validation',         name: 'validation-api',      version: '1.1.0.Final'
+
+	// Logging
+	compile group: 'org.slf4j',                name: 'slf4j-api',           version: '1.7.24'
+	compile group: 'ch.qos.logback',           name: 'logback-classic',     version: '1.1.7'
+
+	// Testing
+	compile group: 'junit',                    name: 'junit',               version: '4.12'
+
+	// Java FX
+	compile files("${System.properties['java.home']}/lib/ext/jfxrt.jar")
+}
+
+compileJava {
+	options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+compileTestJava {
+	options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+task bundledJar(type: Jar) {
+	manifest {
+		attributes 'Main-Class': mainClassName
+	}
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+
+	archiveName = "${project.name}-bundled.jar"
+
+	with jar
+}
