@@ -25,6 +25,7 @@ public class Main extends Application {
 
 	private URL resource(String name) throws IOException {
 		URL url = getClass().getClassLoader().getResource(name);
+
 		if (url != null) {
 			return url;
 		}
