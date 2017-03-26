@@ -10,12 +10,6 @@ import org.springframework.stereotype.Controller;
 
 import java.io.ByteArrayInputStream;
 
-
-/**
- * Controller zur Anzeige des Bildes einer Box
- * @author Lorenz Leutgeb
- *
- */
 @Controller
 public class ImageController {
 	@FXML
@@ -25,9 +19,6 @@ public class ImageController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-	/**
-	 * initialisiert den ShowPictureFrameController
-	 */
 	@FXML
 	public void initialize() {
 		if (box == null) {

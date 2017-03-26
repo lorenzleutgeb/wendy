@@ -24,10 +24,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-/**
- * Controller zur Anzeige des Formulars zum erstellen bzw. updaten einer Box
- *
- */
 @Controller
 public class BoxController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BoxController.class);
@@ -35,34 +31,33 @@ public class BoxController {
 	private final BoxService boxService;
 
 	@FXML
-	private TextField name;
+	private TextField nameField;
 
 	@FXML
-	private TextField tagespreis;
+	private TextField priceField;
 
 	@FXML
-	private TextField groesse;
+	private TextField sizeField;
 
 	@FXML
-	private CheckBox fenster;
+	private CheckBox windowCheckBox;
 
 	@FXML
 	private Label errorName;
 
 	@FXML
-	private Label errorTagespreis;
+	private Label errorPrice;
 
 	@FXML
-	private Label errorFoto;
+	private Label errorPhoto;
 
 	@FXML
-	private Label errorGroesse;
+	private Label errorSize;
 
 	@FXML
-	private Button openFoto; 
+	private Button photoButton;
 
 	private Stage stage; 
-	private boolean okClicked; 
 
 	private Box box;
 
@@ -77,134 +72,86 @@ public class BoxController {
 		this.boxService = boxService;
 	}
 
-	/**
-	 * initialisiert den BoxFrameController
-	 * @throws Exception
-	 */
 	public void initialize() throws Exception{
 		LOGGER.info("initializing BoxFrameController");
-		okClicked = false;
 
 		if (box == null) {
 			return;
 		}
 
-		name.setText(box.getName());
-		tagespreis.setText(box.getPrice().toString());
-		// TODO: Do something with photo.
-		//foto.setText(b.getPhoto());
-		groesse.setText(String.valueOf(box.getSize()));
-		fenster.setSelected(box.isWindow());
+		nameField.setText(box.getName());
+		priceField.setText(box.getPrice().toString());
+		sizeField.setText(String.valueOf(box.getSize()));
+		windowCheckBox.setSelected(box.isWindow());
 
 		if (box.getPhoto() != null && box.getPhoto().length != 0) {
 			imageView.setImage(new Image(new ByteArrayInputStream(box.getPhoto())));
 		}
-
-		/*openFoto.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent e){
-				FileChooser fileChooser = new FileChooser();
-				File file = fileChooser.showOpenDialog(stage);
-				if(file != null){
-					foto.setText(file.getAbsolutePath());
-				}
-			}
-		});*/
 	}
 
 	public void setStage(Stage stage){
 		this.stage = stage;
 	}
 
-	/**
-	 * setzt die Anzeige wenn eine Box bearbeitet wird
-	 * @param box
-	 */
 	public void setBox(Box box) {
 		if (box == null) {
 			LOGGER.warn("Box passed is null!");
 		}
 		this.box = box;
-
 	}
 
-	/**
-	 * validiert alle Eingabefelder und setzt eventuelle Fehlermeldungen am GUI
-	 * @return true, wenn alle Eingaben korrekt, false wenn nicht
-	 */
 	private boolean validate() {
 		boolean valid = true;
-		if (name.getText().isEmpty() || name.getText() == null) {
+		if (nameField.getText().isEmpty() || nameField.getText() == null) {
 			errorName.setText("Name darf nicht frei bleiben.");
 			valid = false;
 		} else {
 			errorName.setText("");
 		}
 		try {
-			if (tagespreis.getText().isEmpty() || tagespreis.getText() == null) {
-				errorTagespreis.setText("Tagespreis darf nicht frei bleiben.");
+			if (priceField.getText().isEmpty() || priceField.getText() == null) {
+				errorPrice.setText("Tagespreis darf nicht frei bleiben.");
 				valid = false;
-			} else if (Double.valueOf(tagespreis.getText()) <= 0) {
-				errorTagespreis.setText("Preis darf nicht 0 oder negativ sein.");
+			} else if (Double.valueOf(priceField.getText()) <= 0) {
+				errorPrice.setText("Preis darf nicht 0 oder negativ sein.");
 				valid = false;
 			} else {
-				errorTagespreis.setText("");
+				errorPrice.setText("");
 			}
 		} catch(NumberFormatException e) {
-			errorTagespreis.setText("Ungueltige Zahl, Format: 00.00");
+			errorPrice.setText("Ungueltige Zahl, Format: 00.00");
 		}
 		try {
-			if (groesse.getText().isEmpty() || groesse.getText() == null) {
-				errorGroesse.setText("Groesse darf nicht frei bleiben.");
+			if (sizeField.getText().isEmpty() || sizeField.getText() == null) {
+				errorSize.setText("Groesse darf nicht frei bleiben.");
 				valid = false;
-			} else if (Double.valueOf(groesse.getText()) <= 0) {
-				errorGroesse.setText("Groesse darf nicht 0 oder negativ sein.");
+			} else if (Double.valueOf(sizeField.getText()) <= 0) {
+				errorSize.setText("Groesse darf nicht 0 oder negativ sein.");
 				valid = false;
 			} else {
-				errorGroesse.setText("");
+				errorSize.setText("");
 			}
 		} catch(NumberFormatException e) {
-			errorGroesse.setText("Groesse muss eine gueltige Zahl darstellen.");
+			errorSize.setText("Groesse muss eine gueltige Zahl darstellen.");
 			valid = false;
 		}
-
-		/*if(foto.getText().isEmpty() || foto.getText() == null){
-			errorFoto.setText("Pfad des Fotos muss angegeben werden.");
-			ret = false; 
-		}else{
-			File image = new File(foto.getText());
-			if(image.exists()){
-				errorFoto.setText("");
-				ret = true; 
-			}else{
-				errorFoto.setText("Pfad des Fotos muss gueltig sein.");
-				ret = false; 
-			}
-		}*/
 		return valid;
 	}
 
-	/**
-	 * Action fuer den SpeicherButton
-	 * Legt eine neue Box mit den Eingaben an bzw. updatet sie, sofern sie korrekt sind
-	 */
 	@FXML
-	private void onSpeichernClicked() {
-		LOGGER.info("speicherButtonClicked");
+	private void onSaveClicked() {
 		if (validate()) {
-			box.setName(name.getText().trim());
-			box.setPrice(new BigDecimal(tagespreis.getText()));
-			// TODO: Handle Photo
-			//box.setPhoto(new ByteArrayInputStream(new foto.getText().trim()));
-			box.setWindow(fenster.isSelected());
-			box.setSize(Double.valueOf(groesse.getText()));
+			box.setName(nameField.getText().trim());
+			box.setPrice(new BigDecimal(priceField.getText()));
+			box.setWindow(windowCheckBox.isSelected());
+			box.setSize(Double.valueOf(sizeField.getText()));
 			boxService.updateBox(box);
 			stage.close();
 		}
 	}
 
 	@FXML
-	private void onPhotoButtonClicked() {
+	private void onPhotoClicked() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select Box Image");
 		fileChooser.getExtensionFilters().addAll(
@@ -229,12 +176,8 @@ public class BoxController {
 		}
 	}
 
-	/**
-	 * Cancelt das Anlegen einer neuen Box.
-	 */
 	@FXML
 	private void onCancelClicked() {
-		LOGGER.info("cancelButtonClicked");
 		stage.close(); 
 	}
 }

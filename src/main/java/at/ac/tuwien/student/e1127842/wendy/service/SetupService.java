@@ -57,7 +57,6 @@ public class SetupService {
 		Reservation osterAusritt = reservationRepository.save(new Reservation(heinz, Instant.parse("2017-04-07T00:00:00.00Z"), Instant.parse("2017-04-24T00:00:00.00Z")));
 		reservationDetailRepository.save(new ReservationDetail(boxes[2], osterAusritt, "Wilhelm"));
 
-
 		Reservation wochenende = reservationRepository.save(new Reservation(sabine, Instant.parse("2017-03-31T00:00:00.00Z"), Instant.parse("2017-04-02T00:00:00.00Z")));
 		reservationDetailRepository.save(new ReservationDetail(boxes[2], wochenende, "Beauty"));
 		reservationDetailRepository.save(new ReservationDetail(boxes[7], wochenende, "Symphony"));
