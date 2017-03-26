@@ -21,7 +21,7 @@ public abstract class IdentifiableEntity implements Identifiable<UUID>, Serializ
 	protected UUID id;
 
 	protected IdentifiableEntity(UUID id) {
-	this.id = id;
+		this.id = id;
 	}
 
 	protected IdentifiableEntity() {

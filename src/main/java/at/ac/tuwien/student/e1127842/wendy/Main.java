@@ -16,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 import java.net.URL;
+import java.util.function.Consumer;
 
 @Configuration
 @EnableAutoConfiguration
@@ -23,8 +24,9 @@ import java.net.URL;
 public class Main extends Application {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-	private URL resource(String name) throws IOException {
-		URL url = getClass().getClassLoader().getResource(name);
+	private static URL resource(String name) throws IOException {
+		LOGGER.info("Attempting to access resource named " + name);
+		URL url = Main.class.getClassLoader().getResource(name);
 
 		if (url != null) {
 			return url;
@@ -32,11 +34,42 @@ public class Main extends Application {
 		throw new IOException("Resource not found " + name);
 	}
 
-	private void show(Stage stage, String name, String title, int width, int height, ApplicationContext context) throws IOException {
-		Parent parent = load(resource(name), context);
+	public static void show(Stage stage, String name, String title, int width, int height, ApplicationContext context) {
+		show(stage, name, title, width, height, context, o -> {});
+	}
+
+	public static void show(Stage stage, String name, String title, int width, int height, ApplicationContext context, Consumer<Object> intialization) {
+		FXMLLoader loader = null;
+		Parent parent = null;
+		try {
+			loader = loader(resource(name), context);
+			parent = loader.load();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		intialization.accept(loader.getController());
 		stage.setTitle(title);
 		stage.setScene(new Scene(parent, width, height));
 		stage.show();
+	}
+
+	public static void show(Stage stage, String name, String title, int width, int height, Object controller) {
+		stage(stage, name, title, width, height, controller).show();
+	}
+
+	public static Stage stage(Stage stage, String name, String title, int width, int height, Object controller) {
+		FXMLLoader loader = null;
+		Parent parent = null;
+		try {
+			loader = new FXMLLoader(resource(name));
+			loader.setController(controller);
+			parent = loader.load();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		stage.setTitle(title);
+		stage.setScene(new Scene(parent, width, height));
+		return stage;
 	}
 
 	@Override
@@ -47,11 +80,11 @@ public class Main extends Application {
 		s.setup();
 		LOGGER.debug("Starting!");
 
-		show(stage, "views/Main.fxml", "Wendy's Pferdepension", 300, 275, context);
+		show(stage, "views/Main.fxml", "Wendy's Pferdepension", 800, 500, context);
 	}
 
-	public Parent load(URL location, ApplicationContext context) throws IOException {
-		return FXMLLoader.load(location, null, new JavaFXBuilderFactory(), context::getBean);
+	public static FXMLLoader loader(URL location, ApplicationContext context) throws IOException {
+		return new FXMLLoader(location, null, new JavaFXBuilderFactory(), context::getBean);
 	}
 
 	public static void main(String[] args) {

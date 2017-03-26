@@ -21,23 +21,24 @@ public final class ReservationDetail implements Serializable {
 	private BigDecimal price;
 
 	@Column(nullable = false, updatable = false)
-	private Instant start;
-
-	@Column(nullable = false, updatable = false)
-	private Instant end;
-
-	@Column(nullable = false, updatable = false)
 	private String horseName;
 
-	public ReservationDetail(Box box, Reservation reservation, Instant start, Instant end, String horseName) {
+	public ReservationDetail(Box box, Reservation reservation, String horseName) {
+		if (box == null || horseName == null || horseName.isEmpty()) {
+			throw new IllegalArgumentException("empty parameter");
+		}
+
+		if (box.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+			throw new IllegalArgumentException("price must be greater than zero");
+		}
+
 		this.key = new ReservationDetailKey(box, reservation);
 		this.price = box.getPrice();
-		this.start = start;
-		this.end = end;
 		this.horseName = horseName;
 	}
 
-	private ReservationDetail() {
+	// TODO: Make private
+	public ReservationDetail() {
 	}
 
 	public ReservationDetailKey getKey() {
@@ -48,6 +49,14 @@ public final class ReservationDetail implements Serializable {
 		this.key = key;
 	}
 
+	public String getHorseName() {
+		return horseName;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
 	@Transient
 	public Box getBox() {
 		return key.getBox();
@@ -56,5 +65,10 @@ public final class ReservationDetail implements Serializable {
 	@Transient
 	public Reservation getReservation() {
 		return key.getReservation();
+	}
+
+	@Override
+	public String toString() {
+		return getHorseName() + " in " + getBox().getName();
 	}
 }

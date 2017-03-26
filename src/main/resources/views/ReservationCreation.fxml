@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <Label layoutX="60.0" layoutY="56.0" text="Start" />
+    <Label layoutX="60.0" layoutY="90.0" text="End" />
+    <Label layoutX="343.0" layoutY="54.0" text="Customer" />
+    <TextField fx:id="customerNameField" layoutX="418.0" layoutY="51.0" prefWidth="158.0" />
+    <TableView fx:id="tableViewChosen" layoutX="418.0" layoutY="113.0" prefHeight="200.0" prefWidth="209.0">
+      <columns>
+        <TableColumn fx:id="chosenBoxColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="77.0" text="Box" />
+        <TableColumn fx:id="chosenPriceColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="101.0" text="Price" />
+        <TableColumn fx:id="chosenHorseNameColumn" prefWidth="75.0" text="Horse" />
+      </columns>
+    </TableView>
+    <TableView fx:id="availableBoxesTable" layoutX="60.0" layoutY="139.0" prefHeight="200.0" prefWidth="254.0">
+      <columns>
+        <TableColumn fx:id="nameColumn" prefWidth="118.0" text="Name">
+          <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+        </TableColumn>
+        <TableColumn minWidth="0.0" prefWidth="100.0" text="Price">
+          <cellValueFactory><PropertyValueFactory property="price" /></cellValueFactory>
+        </TableColumn>
+        <TableColumn minWidth="0.0" prefWidth="110.0" text="Size">
+          <cellValueFactory><PropertyValueFactory property="size" /></cellValueFactory>
+        </TableColumn>
+        <TableColumn fx:id="windowColumn" prefWidth="70.0" text="Window">
+          <cellValueFactory><PropertyValueFactory property="window" /></cellValueFactory>
+        </TableColumn>
+      </columns>
+      <sortOrder>
+        <fx:reference source="nameColumn" />
+      </sortOrder>
+    </TableView>
+    <Button fx:id="add" layoutX="328.0" layoutY="200.0" mnemonicParsing="false" onAction="#add" prefWidth="64.0" text="&gt;&gt;" />
+    <Button defaultButton="true" layoutX="346.0" layoutY="360.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
+    <DatePicker fx:id="startPicker" layoutX="99.0" layoutY="51.0" />
+    <DatePicker fx:id="endPicker" layoutX="99.0" layoutY="85.0" />
+  </children>
+</AnchorPane>

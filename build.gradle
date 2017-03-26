@@ -34,8 +34,14 @@ dependencies {
 	// Testing
 	compile group: 'junit',                    name: 'junit',               version: '4.12'
 
+	compile group: 'com.google.guava',         name: 'guava',               version: '21.0'
+
+	//compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2'
+
 	// Java FX
 	compile files("${System.properties['java.home']}/lib/ext/jfxrt.jar")
+
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.19'
 }
 
 compileJava {

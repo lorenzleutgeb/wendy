@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="211.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.student.e1127842.wendy.controller.BoxTabController">
+    <children>
+        <SplitPane dividerPositions="0.2606060606060606" orientation="VERTICAL" prefWidth="522.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Button layoutX="658.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#onClickNewBox" text="New Box" />
+                        <TextField fx:id="filterName" layoutX="85.0" layoutY="9.0" onAction="#onFilter" prefHeight="26.0" prefWidth="473.0" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Name:" />
+                        <ChoiceBox fx:id="filterWindow" layoutX="85.0" layoutY="48.0" onAction="#onFilter" prefHeight="26.0" prefWidth="72.0" value="n/a">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="n/a" />
+                                    <String fx:value="yes" />
+                                    <String fx:value="no" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Label layoutX="14.0" layoutY="53.0" text="Window:" />
+                        <Label layoutX="14.0" layoutY="92.0" text="Price:" />
+                        <Slider fx:id="filterPriceMin" blockIncrement="1.0" layoutX="85.0" layoutY="92.0" />
+                        <TextField fx:id="filterPriceMinBox" layoutX="225.0" layoutY="87.0" onInputMethodTextChanged="#minPriceTextChanged" prefHeight="26.0" prefWidth="58.0" />
+                        <Slider fx:id="filterPriceMax" blockIncrement="1.0" layoutX="320.0" layoutY="92.0" value="100.0" />
+                        <TextField fx:id="filterPriceMaxBox" layoutX="460.0" layoutY="87.0" onInputMethodTextChanged="#maxPriceTextChanged" prefHeight="26.0" prefWidth="58.0" />
+                        <Label layoutX="294.0" layoutY="92.0" text="to" />
+                        <Label layoutX="526.0" layoutY="92.0" text="€" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <TableView fx:id="boxesTableView" editable="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <placeholder>
+                                <Label text="No boxes matching your search criteria" />
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="nameColumn" prefWidth="118.0" text="Name">
+                                    <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn minWidth="0.0" prefWidth="100.0" text="Price">
+                                    <cellValueFactory><PropertyValueFactory property="price" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn minWidth="0.0" prefWidth="110.0" text="Size">
+                                    <cellValueFactory><PropertyValueFactory property="size" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="windowColumn" prefWidth="70.0" text="Window">
+                                    <cellValueFactory><PropertyValueFactory property="window" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="158.0" text="Image" />
+                            </columns>
+                            <sortOrder>
+                                <fx:reference source="nameColumn" />
+                            </sortOrder>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

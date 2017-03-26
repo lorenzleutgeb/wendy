@@ -3,6 +3,7 @@ package at.ac.tuwien.student.e1127842.wendy.domain;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.Instant;
 import java.util.Set;
 
@@ -17,6 +18,9 @@ public final class Customer extends IdentifiableEntity {
 
 	@OneToMany(mappedBy = "customer")
 	Set<Reservation> reservations;
+
+	private Customer() {
+	}
 
 	public Customer(String firstName, String lastName) {
 		this.firstName = firstName;
@@ -46,5 +50,10 @@ public final class Customer extends IdentifiableEntity {
 
 	public void setSince(Instant since) {
 		this.since = since;
+	}
+
+	@Transient
+	public String getName() {
+		return getFirstName() + " " + getLastName();
 	}
 }

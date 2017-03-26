@@ -1,7 +1,9 @@
 package at.ac.tuwien.student.e1127842.wendy.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -10,26 +12,38 @@ import java.util.UUID;
 @Table(name = "box")
 public class Box extends IdentifiableEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private String name;
 
 	private BigDecimal price;
 
-	private String name;
+	@Lob
 	private byte[] photo;
+
+	@Min(0)
 	private double size;
+
 	private boolean window;
-	private boolean outside;
 	private boolean deleted;
 
 	public Box(UUID id) {
 		super(id);
 	}
 
-	private Box() {
+	public Box() {
 	}
 
-	public Box(String name, BigDecimal price) {
+	public Box(String name, BigDecimal price, byte[] photo, double size, boolean window) {
 		this.name = name;
 		this.price = price;
+		this.photo = photo;
+		this.size = size;
+		this.window = window;
+	}
+
+	public Box(String name, BigDecimal price, boolean window) {
+		this.name = name;
+		this.price = price;
+		this.window = window;
 	}
 
 	public BigDecimal getPrice() {
@@ -70,14 +84,6 @@ public class Box extends IdentifiableEntity implements Serializable {
 
 	public void setWindow(boolean window) {
 		this.window = window;
-	}
-
-	public boolean isOutside() {
-		return outside;
-	}
-
-	public void setOutside(boolean outside) {
-		this.outside = outside;
 	}
 
 	public boolean isDeleted() {
