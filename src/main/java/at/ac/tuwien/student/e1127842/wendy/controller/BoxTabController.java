@@ -3,7 +3,6 @@ package at.ac.tuwien.student.e1127842.wendy.controller;
 import at.ac.tuwien.student.e1127842.wendy.Main;
 import at.ac.tuwien.student.e1127842.wendy.control.BooleanCell;
 import at.ac.tuwien.student.e1127842.wendy.domain.Box;
-import at.ac.tuwien.student.e1127842.wendy.domain.Reservation;
 import at.ac.tuwien.student.e1127842.wendy.service.BoxService;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;

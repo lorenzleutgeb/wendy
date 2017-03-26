@@ -1,11 +1,6 @@
 package at.ac.tuwien.student.e1127842.wendy.controller;
 
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-
 import at.ac.tuwien.student.e1127842.wendy.Constants;
 import at.ac.tuwien.student.e1127842.wendy.domain.Reservation;
 import at.ac.tuwien.student.e1127842.wendy.domain.ReservationDetail;
@@ -18,6 +13,11 @@ import javafx.scene.control.TableView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * Controller zur Anzeige der Rechnung fuer eine durch ContextMenu ausgewaehlte Reservierung

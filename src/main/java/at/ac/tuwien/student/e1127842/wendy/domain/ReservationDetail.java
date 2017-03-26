@@ -3,7 +3,6 @@ package at.ac.tuwien.student.e1127842.wendy.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @Entity
 @Table(name = "organization_membership")
